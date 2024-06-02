@@ -10,6 +10,8 @@ class Complex{
       this->b=b;
     }
 
+    // friend function won't get the part of this class, friend function only get some access of this class
+
     friend Complex sumComplex(Complex, Complex);
     // or friend Complex sumComplex(Complex o1, Complex o2);
     void print(){
