@@ -12,6 +12,15 @@ bin-release/
 *.air
 *.ipa
 *.apk
+*.exe
+*.class
+*.json
+
+# ignore folder
+# /cph/
+
+#ignore system files
+.cph
 
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
