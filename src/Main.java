@@ -14,10 +14,13 @@ class Main {
             // solve();
         }
     }
-
+    
     public static void solve() {
         long a = sc.nextLong();
         long b = sc.nextLong();
+
+        HashSet<Integer> set = new HashSet<>();
+        TreeSet<Integer> s=new TreeSet<>();
 
         System.out.println((a+b)%3 == 0 && Math.min(a, b)*2 >= Math.max(a, b)?"YES":"NO");
     }

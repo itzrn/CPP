@@ -1,6 +1,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define ll long long
+#define ld long double
+#define ull unsigned long long
+
+//                 (variable, start, end)
+#define rep_inc(i, a, b) for (int i=a; i<b; i++)
+#define rep_dec(i, a, b) for (int i=a; i>= b; i--)
+#define rep_step(i, a, b, step) for (int i=a; i<=b; i+=step)
+// ------------------------------------------------------------------------------------------ //
+
+
+
 template <class T>
 class Contest {
     private:
@@ -31,7 +43,7 @@ class Contest {
             b=temp;
         }
 
-        bool isPrime(long n) {
+        bool isPrime(ll n) {
             if (n < 2)
                 return false;
             if (n == 2 || n == 3)
@@ -39,17 +51,30 @@ class Contest {
             if (n % 2 == 0 || n % 3 == 0)
                 return false;
     
-            for (long i = 6; i*i <= n; i += 6) {
+            for (ll i = 6; i*i <= n; i += 6) {
                 if ((n % (i - 1) == 0) || (n % (i + 1) == 0)) {
                     return false;
                 }
             }
         return true;
     }
-        long gcd(long a, long b) {
-            return b == 0L ? a : gcd(b, a % b);
+        ll gcd(ll X, ll Y) { 
+            return !Y ? X : gcd(Y, X % Y);
         }
-
+        ll lcm(ll X, ll Y) { 
+            return X * Y / gcd(X, Y); 
+        }
+        ll exppow(ll X, ll Y) { 
+            ll R = 1; 
+            X %= M; 
+            while (Y > 0) { 
+                if (Y % 2) {
+                    R = (R * X) % M; 
+                } 
+                X = (X * X) % M, Y /= 2; 
+            } 
+            return R; 
+        }
 
 
     public:
@@ -59,13 +84,15 @@ class Contest {
 
 };
 Contest<int> contestInt;
-Contest<char> contestChar;
+// Contest<char> contestChar;
 int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
     
     int t = 1;
     cin >> t;
     while (t-- > 0) {
-        // contestInt.solve();
+        contestInt.solve();
         // contestChar.solve();
     }
     return 0;

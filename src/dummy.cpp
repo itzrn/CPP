@@ -7,6 +7,8 @@ using namespace std;
 
 
 class Solution {
+
+
     int dp[1001][1001];
     int **a;
 
@@ -30,6 +32,13 @@ class Solution {
         return dp[idx1][idx2] = max(temp1, temp2);
     }
 public:
+    int* count(string& str){
+        int *arr = new int[26];
+        for(char ch:str){
+            arr[ch-'a']++;
+        }
+        return arr;
+    }
     int longestCommonSubsequence(string text1, string text2) {
         int n=text1.length();
         int m=text2.length();
@@ -47,7 +56,7 @@ public:
         for(int i=0; i<10; i++){
             for(int j=0; j<12; j++){
                 cout<<a[i][j]<<" ";
-            }
+            }   
             cout<<endl;
         }
 
