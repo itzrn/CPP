@@ -4,18 +4,74 @@ using namespace std;
 #define ll long long
 #define ld long double
 #define ull unsigned long long
-
 //                 (variable, start, end)
 #define rep_inc(i, a, b) for (int i=a; i<b; i++)
 #define rep_dec(i, a, b) for (int i=a; i>= b; i--)
 #define rep_step(i, a, b, step) for (int i=a; i<=b; i+=step)
 // ------------------------------------------------------------------------------------------ //
 
+class DSU{
+    int n;
+    int* parent;
+    int* rank;
+    int* size;
 
+    public:
+        DSU(int n):n(n){
+            parent = new int[n];
+            rank = new int[n];
+            size = new int[n];
+
+            for(int i=0; i<n; i++){
+                parent[i] = i;
+                rank[i] = 1;
+                size[i] = 1;
+            }
+        }
+        ~DSU(){
+            delete[]parent, rank, size;
+        }
+        int find_(int x){
+            if(x == parent[x]){
+                return x;
+            }
+            return parent[x] = find_(parent[x]);
+        }
+        void union_rank(int x, int y){
+            int xp = find_(x);
+            int yp = find_(y);
+            if(xp == yp){
+                return;
+            }
+            if(rank[xp]<rank[yp]){
+                parent[xp] = yp;
+            }else if(rank[yp]<rank[xp]){
+                parent[yp]=xp;
+            }else{
+                parent[xp] = yp;
+                rank[yp]++;
+            }
+        }
+        void union_size(int x, int y){
+            int xp=find_(x);
+            int yp=find_(y);
+            if(xp == yp){
+                return;
+            }
+            if(size[xp]<size[yp]){
+                parent[xp] = yp;
+                size[yp] += size[xp];
+            }else{
+                parent[yp] = xp;
+                size[xp] += size[yp];
+            }
+        }
+};
 
 template <class T>
 class Contest {
     private:
+        ll mod=1e9+7;
         vector<T> input_vector(int n) {
             vector<T> vec;
             for (int i = 0; i < n; i++) {
@@ -66,20 +122,19 @@ class Contest {
         }
         ll exppow(ll X, ll Y) { 
             ll R = 1; 
-            X %= M; 
+            X %= mod; 
             while (Y > 0) { 
                 if (Y % 2) {
-                    R = (R * X) % M; 
+                    R = (R * X) % mod; 
                 } 
-                X = (X * X) % M, Y /= 2; 
+                X = (X * X) % mod, Y /= 2; 
             } 
             return R; 
         }
 
-
     public:
         void solve() {
-
+            
         }
 
 };
@@ -97,3 +152,24 @@ int main() {
     }
     return 0;
 }
+
+
+/*
+1.
+    a function which is use to find the iterator with max element
+    auto max_it = std::max_element(v.begin(), v.end(), [](int a, int b) {
+        return std::abs(a) < std::abs(b);
+    });
+
+    to find the max element -> *max_it(this is the way to dereference the iterator to extract the value of it)
+
+2.
+
+
+
+void swapp(Node*& a, Node*& b){
+    Node* temp = a;
+    a=b;
+    b=temp;
+}  
+*/

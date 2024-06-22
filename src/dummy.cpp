@@ -1,117 +1,288 @@
-#include <vector>
-#include <queue>
-#include <set>
 #include <iostream>
-#include <string.h>
+#include<algorithm>
+#include<vector>
+#include<unordered_set>
+#include<set>
+#include<stack>
+#include<cmath>
 using namespace std;
 
+class DSU{
+    int n;
+    int* parent;
+    int* rank;
+    int* size;
+
+    public:
+        DSU(int n):n(n){
+            parent = new int[n];
+            rank = new int[n];
+            size = new int[n];
+
+            for(int i=0; i<n; i++){
+                parent[i] = i;
+                rank[i] = 1;
+                size[i] = 1;
+            }
+        }
+        ~DSU(){
+            delete[] size, rank, parent;
+        }
+        int find_(int x){
+            if(x == parent[x]){
+                return x;
+            }
+            return parent[x] = find_(parent[x]);
+        }
+        void union_rank(int x, int y){
+            int xp = find_(x);
+            int yp = find_(y);
+            if(xp == yp){
+                return;
+            }
+            if(rank[xp]<rank[yp]){
+                parent[xp] = yp;
+            }else if(rank[yp]<rank[xp]){
+                parent[yp]=xp;
+            }else{
+                parent[xp] = yp;
+                rank[yp]++;
+            }
+        }
+        void union_size(int x, int y){
+            int xp=find_(x);
+            int yp=find_(y);
+            if(xp == yp){
+                return;
+            }
+            if(size[xp]<size[yp]){
+                parent[xp] = yp;
+                size[yp] += size[xp];
+            }else{
+                parent[yp] = xp;
+                size[xp] += size[yp];
+            }
+        }
+};
+
+struct Node {
+    int data;
+    Node* next;
+    Node* prev;
+    Node (int x) {
+        data=x;
+        next=NULL;
+        prev=NULL;
+    }
+        
+};
 
 class Solution {
-
-
-    int dp[1001][1001];
-    int **a;
-
-    int recursion(string str1, int idx1, int n, string str2, int idx2, int m){
-        if(idx1 == n || idx2 == m){
-            return 0;
+    public:
+    Node* reverseDLL(Node* head) {
+        while(!head->next){
+            swap(head->next, head->prev);
+            head = head->next;
         }
-
-
-        if(dp[idx1][idx2] != -1){
-            return dp[idx1][idx2];
-        }
-
-        if(str1[idx1] == str2[idx2]){
-            return dp[idx1][idx2] = 1 + recursion(str1, idx1+1, n, str2, idx2+1, m);
-        }
-
-        int temp1 = recursion(str1, idx1+1, n, str2, idx2, m);
-        int temp2 = recursion(str1, idx1, n, str2, idx2+1, m);
-
-        return dp[idx1][idx2] = max(temp1, temp2);
+        return head;
     }
-public:
-    int* count(string& str){
-        int *arr = new int[26];
-        for(char ch:str){
-            arr[ch-'a']++;
-        }
-        return arr;
+    
+    void swap(Node*& a, Node*& b) {
+        Node* temp = a;
+        a = b;
+        b= temp;
     }
-    int longestCommonSubsequence(string text1, string text2) {
-        int n=text1.length();
-        int m=text2.length();
-        memset(dp, -1, sizeof(dp));
-        int ans = recursion(text1, 0, n, text2, 0, m);
-        return ans == -1?0: ans;
-    }
+};
 
-    int** xyz(){
-        a = new int*[10];
-        for(int i=0; i<10; i++){
-            a[i] = new int[12]{};
-        }
+// class test{
+//     public:
+//         int xy;
+//         test(int l):xy(l){}
+// }a(2), b(3);
 
-        for(int i=0; i<10; i++){
-            for(int j=0; j<12; j++){
-                cout<<a[i][j]<<" ";
-            }   
-            cout<<endl;
-        }
+void swap(Node*& a, Node*& b){
+    Node* temp = a;
+    a=b;
+    b=temp;
+}
 
-        for(int i=0; i<10; i++){
-            delete a[i];
+// void swap(test& a, test& b){
+//     test temp=a;
+//     a=b;
+//     b=temp;
+// }
+
+// void swap(test* a, test* b){
+//     test* temp = a;
+//     a = b;
+//     b= temp;
+// }
+
+// int main(){
+
+    // Node* a= new Node(1);
+    // Node* b= new Node(2);
+    // Node* c= new Node(3);
+
+    // a->next=b;
+    // b->prev=a;
+    // b->next = c;
+    // c->prev = b;
+
+    // Node* curr = a;
+    // // cout<<curr->next<<endl;
+    // while(curr->next){
+    //     cout<<"Aryan"<<endl;
+    //     swap(curr->next, curr->prev);
+    //     curr = curr->prev;
+    // }
+
+    // swap(curr->next, curr->prev);
+
+    // cout<<c->next->data<<endl;
+    // cout<<curr->data<<endl;
+
+    // cout<<a->next->data<<endl;
+    // cout<<a->next<<endl;
+    // cout<<a->prev<<endl;
+    // cout<<a->prev<<endl;
+    // cout<<a->data<<endl;
+    // cout<<a->next->data<<endl;
+    // cout<<a->next->next<<endl;
+
+    // cout<<b->prev<<endl;
+
+
+    // swap(a->next, a->prev);
+    // swap(b->next, b->prev);
+
+    // cout<<endl;
+    // unordered_set<pair<int, int>> s;
+
+    // cout<<b->prev<<endl;
+    // cout<<b->data<<endl;
+    // cout<<b->next->data<<endl;
+    // cout<<b->next->next<<endl;
+
+    // cout<<a->next<<endl;
+    // cout<<a->prev<<endl;
+
+    // cout<<a->prev->data<<endl;
+    // cout<<a->next<<endl;
+    // cout<<&a<<endl;
+
+    // test* ptrA = &a;
+    // test* ptrB = &b;
+    // cout<<"ptrA -> "<<ptrA<<endl;
+    // cout<<"ptrA->xy -> "<<ptrA->xy<<endl;
+    // cout<<"ptrB -> "<<ptrB<<endl;
+    // cout<<"ptrB-xy -> "<<ptrB->xy<<endl;
+
+
+    // cout<<"a-> "<<&a<<endl;
+    // cout<<"b-> "<<&b<<endl;
+
+    // test temp = a;
+    // a=b;
+    // b=temp;
+
+    
+
+    // int** arr = new int*[10];
+    // for(int i=0; i<10; i++){
+    //     arr[i] = new int[8];
+    //     fill(arr[i], arr[i]+8, INT_MAX);
+    // }
+
+    // cout<<arr[0][0]<<endl;
+
+    // for(int i=0; i<10; i++){
+    //     delete[] arr[i];
+    // }
+    // delete[] arr;
+
+
+    // swap(ptrA, ptrB);
+    // a = *ptrA;
+    // b = *ptrB;
+
+    // cout<<"a-> "<<&a<<endl;
+    // cout<<"b-> "<<&b<<endl;
+
+    // cout<<"ptrA -> "<<ptrA<<endl;
+    // cout<<"ptrA->xy -> "<<ptrA->xy<<endl;
+    // cout<<"ptrB -> "<<ptrB<<endl;
+    // cout<<"ptrB-xy -> "<<ptrB->xy<<endl;
+
+    // cout<<"a -> "<<&a<<endl;
+    // cout<<"b -> "<<&b<<endl;
+
+    // vector<int> vec;
+    // vec.em
+
+//     multiset<int> ms;
+//     ms.insert(4);
+//     ms.insert(3);
+//     ms.insert(1);
+//     ms.insert(4);
+//     ms.insert(1);
+//     ms.insert(5);
+
+//     auto it = ms.begin();
+//     while(it != end(ms)){
+//         cout<<(*it)<<endl;
+//         it++;
+//     }
+//     return 0;
+// }
+
+class Test{
+    public:
+        vector<int> NGE(vector<int>& vec){
+            int n=vec.size();
+            vector<int> ans(n);
+            stack<int> st;
+
+            for(int i=0; i<n; i++){
+                while(!st.empty() && vec[i]>vec[st.top()]){
+                    ans[st.top()] = i;
+                    st.pop();
+                }
+                st.push(i);
+            }
+
+            while(!st.empty()){
+                ans[st.top()] = -1;
+                st.pop();
+            }
+
+            return ans;
         }
-        delete a;
-        return a;
-    }
-}s;
+};
 
 int main(){
-    // int arr[10];
-    // memset(arr, -1, sizeof(arr));
-    // int **arr = s.xyz();
-    // cout<<"Aryan"<<endl;
-    // for(int i=0; i<10; i++){
-    //     for(int j=0; j<12; j++){
-    //         cout<<arr[i][j]<<" ";
-    //     }
-    //     cout<<endl;
+    // Test t = Test();
+    // int n;
+    // cin>>n;
+    // vector<int> vec;
+    // while(n-->0){
+    //     int a;
+    //     cin>>a;
+    //     vec.push_back(a);
     // }
 
-    // string str = "aryanaryan";
-    // int *arr = new int[26]{};
-    // for(int i=0; i<str.length(); i++){
-    //     if(str[i]>=97 && str[i]<=122){
-    //         arr[str[i]-'a']++;
-    //     }
-    // }
-
-    // for(int i=0; i<26; i++){
-    //     cout<<arr[i]<<endl;
-    // }
-
-    set<int> set_;
-    set_.insert(5);
-    set_.insert(1);
-    set_.insert(4);
-    set_.insert(3);
-    set_.insert(2);
-    set_.insert(1);
-
-    set<int> :: iterator it = set_.begin();
-    // set<int> :: iterator ite = set_.end();
-
-
-    while(it!=prev(set_.end())){
-        // if((*it+1)-*it == 1){
-
-        // }
-        cout<<*it<<" "<<*next(it)<<endl;
-        it++;
-    }
+    // vector<int> nge = t.NGE(vec);
+    int a=10;
+    int*b = &a;
+    int**c = &b;
+    cout<<"value of a -> a -> "<<a<<endl; // a ka value
+    cout<<"address of a -> &a -> "<<&a<<endl; // a ka address
+    cout<<"value of b -> b -> "<<b<<endl; // b ka value
+    cout<<"addres of b -> &b -> "<<&b<<endl;// b ka address
+    cout<<"value of c -> c -> "<<c<<endl; // c ka value or b ka address
+    cout<<"address of c -> &c ->"<<&c<<endl; //c ka address
+    cout<<"value of *c -> *c -> "<<*c<<endl; // b ka value or a ka address
+    cout<<"value of **c -> **c -> "<<**c<<endl; // a value
 
     return 0;
 }
-
