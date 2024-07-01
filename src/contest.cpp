@@ -4,11 +4,15 @@ using namespace std;
 #define ll long long
 #define ld long double
 #define ull unsigned long long
+#define PI 3.1415926535897932384626433832795
+#define yes cout << "YES" << endl;
+#define no cout << "NO" << endl;
 //                 (variable, start, end)
 #define rep_inc(i, a, b) for (int i=a; i<b; i++)
 #define rep_dec(i, a, b) for (int i=a; i>= b; i--)
 #define rep_step(i, a, b, step) for (int i=a; i<=b; i+=step)
 // ------------------------------------------------------------------------------------------ //
+
 
 class DSU{
     int n;

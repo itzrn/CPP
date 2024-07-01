@@ -7,11 +7,11 @@ STL is of 4 parts
         3. queue
         4. pair(not a container)
     
-    2. unordered
+    2. unordered // only increment is possible
         1. unordered_map(O(1)) -> it++ (time complexity may get to O(n) when all the element have the same hash value)
         2. unordered_set(O(1)) -> it++ (time complexity may get to O(n) when all the element have the same hash value)
     
-    3. ordered
+    3. ordered // increment and decrement is possible
         1. map(O(logn)) -> it++
         2. multimap(O(logn)) -> it++
         3. set(O(logn)) -> it++
@@ -362,6 +362,26 @@ int main(int argc, char const *argv[]) {
     min_element(begin(vec), end(vec));
     min_element(a, a+n); // for array
     max_element(begin(vec), end(vec));
+
+
+    
+    for 2D array when the memory is allocated using heap
+    int dp[k][k];
+    int max_ = *max_element(&dp[0][0], &dp[0][0] + k * k);
+
+
+    for 2D vector
+    int max_ = *max_element(dp.front().begin(), dp.back().end());
+
+    for 2D array when memory is allocated using stack
+    int** arr = new int*[k];
+    for(int i=0; i<k; i++){
+        arr[i]=new int[k];
+    }
+    for (int i = 0; i < k; ++i) {
+        max_ = max(max_, *max_element(arr[i], arr[i] + k));
+    }
+    do not forget to deallocate the memory
 
 
     to get the sum
