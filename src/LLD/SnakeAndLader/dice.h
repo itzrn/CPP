@@ -1,4 +1,4 @@
-// 
+// this is use to store the Dice info and give the randon number of each chance
 
 #ifndef DICE_H
 #define DICE_H
@@ -9,15 +9,14 @@ using namespace std;
 
 class dice {
 public:
-    dice(int numberOfDice) : numberOfDice(numberOfDice) {
+    dice() { // keeping the default value to be 6, a dice have 6 number as max
         srand(time(0)); // Seed for random number generator
     }
-    int getNumberOfDice() const{
-        return (rand() % numberOfDice) + 1;
+    int get_dice_value() const{
+        return (rand() % 6) + MIN;
     }
 
 private:
-    int numberOfDice;
     static const int MIN = 1; //  in this context means that MIN is a class-level variable, not tied to any particular instance of the class
     // This allows MIN to be accessed using the class name itself (ClassName::MIN) without needing an instance of the class.
     // const means MIN cannot be modified once it is initialized.
