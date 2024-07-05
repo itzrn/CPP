@@ -8,7 +8,7 @@ using namespace std;
 #define yes cout << "YES" << endl;
 #define no cout << "NO" << endl;
 //                 (variable, start, end)
-#define rep_inc(i, a, b) for (int i=a; i<b; i++)
+#define rep_inc(i, a, b) for (int i=a; i<=b; i++)
 #define rep_dec(i, a, b) for (int i=a; i>= b; i--)
 #define rep_step(i, a, b, step) for (int i=a; i<=b; i+=step)
 // ------------------------------------------------------------------------------------------ //
@@ -76,6 +76,11 @@ template <class T>
 class Contest {
     private:
         ll mod=1e9+7;
+        void input_Arr(T arr[], int n){
+            for(int i=0; i<n; i++){
+                cin>>arr[i];
+            }
+        }
         vector<T> input_vector(int n) {
             vector<T> vec;
             for (int i = 0; i < n; i++) {
@@ -116,8 +121,8 @@ class Contest {
                     return false;
                 }
             }
-        return true;
-    }
+            return true;
+        }
         ll gcd(ll X, ll Y) { 
             return !Y ? X : gcd(Y, X % Y);
         }
@@ -139,6 +144,34 @@ class Contest {
     public:
         void solve() {
             
+            // T n;
+            // cin>>n;
+            // T arr[n];
+
+            
+
+            // for(int i=0; i<n; i++){
+            //     cin>>arr[i];
+            // }
+
+            // unordered_map<T, int> mp;
+            // int mx=0;
+            // T mx_ele=0;
+            // for(int i=0; i<n; i++){
+            //     mp[arr[i]]++;
+            //     if(mx<mp[arr[i]]){
+            //         mx = mp[arr[i]];
+            //         mx_ele = arr[i];
+            //     }
+            // }
+
+            // int ans = (n-mx)*mx_ele;
+            // ans = min(ans, n*1);
+
+            // cout<<ans<<endl;
+
+            
+
         }
 
 };

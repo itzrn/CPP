@@ -330,7 +330,7 @@ int main(int argc, char const *argv[]) {
    /*
     14.
 
-    lower_bound and upper_bound -> this is of O(n) time complexity
+    lower_bound and upper_bound -> this is of O(logn) time complexity
     this work on sorted elements
 
     int a[6]={4, 5, 5, 7, 8, 25};
@@ -439,6 +439,17 @@ int main(int argc, char const *argv[]) {
     19.
         this is the way to initialize string with length of n
         string str(n, '-); means initializing each character of string with '-'
+*/
+
+
+
+/*
+    20.
+        void convert(Node* head, TreeNode *&root) {}
+        in the above function we are passing pointer which pointes a TreeNode address
+        but its not necessary that the pointer point to a valid address that address can be null also
+        so for the safe side you need to create the object of the TreeNode and make the pointer to point it
+
 */
 
 

@@ -1,5 +1,54 @@
 #include <bits/stdc++.h>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
+
+
+class Singleton {
+private:
+    static Singleton* instance; // Static member variable to hold the single instance
+    static mutex mtx;      // Mutex for thread safety
+
+    // Private constructor to prevent instantiation from outside
+    Singleton() {
+    }
+    
+
+public:
+    // Delete copy constructor and assignment operator to prevent copying
+    Singleton(const Singleton&) = delete;
+    Singleton& operator=(const Singleton&) = delete;
+
+    // Static member function to get the Singleton instance
+    static Singleton* getInstance() {
+        lock_guard<std::mutex> lock(mtx); // Ensure thread safety
+        if (instance == nullptr) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+};
+
+// Initialize static members
+Singleton* Singleton::instance = nullptr;
+mutex Singleton::mtx;
+
+int main() {
+    // using namespace std::chrono;
+    auto i =high_resolution_clock::now();
+    auto j =high_resolution_clock::now();
+    auto end = duration_cast<microseconds>(j-i);
+    Singleton* obj1 = Singleton::getInstance();
+    Singleton* obj2 = Singleton::getInstance();
+
+    std::cout << (obj1 == obj2) << std::endl; // Outputs: 1 (true)
+
+    return 0;
+}
+
+
+
+
 
 struct Node{
     int data;
@@ -98,14 +147,39 @@ int MinSize(vector<int> A, int n) {
 }
 
 
-int main(int argc, char const *argv[]) {
+int lca(Node* root, int& p, int& q){
+    if(!root){
+        return -1;
+    }
 
-    int** arr = new int*[10];
-    
-    string str = "10 20 30 40  60 N N N N N  N  ";
-    Node* root = treeBuild(str);
-    inorder(root);
-    return 0;
+    if((*root).data == p || (*root).data == q){
+        return (*root).data;
+    }
+    int left = lca((*root).left, p, q);
+    int right = lca((*root).right, p, q);
+
+    if(left != -1 && right != -1){
+        return (*root).data;
+    }else if(left != -1){
+        return left;
+    }else if (right != -1) {
+        return right;
+    }
+    return -1;
 }
+
+
+// int main(int argc, char const *argv[]) {
+
+//     // int** arr = new int*[10];
+    
+//     // string str = "10 20 30 40  60 N N N N N  N  ";
+//     // Node* root = treeBuild(str);
+//     // inorder(root);
+
+//     vector<int> a= {3,1,4,7,3,1,2,9,1};
+//     cout<<*lower_bound(begin(a), end(a), 5)<<endl;
+//     return 0;
+// }
 
 

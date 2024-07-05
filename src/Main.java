@@ -9,11 +9,7 @@ class Main {
     public static int mod = 1000000007;
 
     public static void main(String[] args) {
-        int t=sc.nextInt();
-        while(t-->0){
-            System.out.println(t);
-            // solve();
-        }
+        
     }
     
     public static void solve() {
