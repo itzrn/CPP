@@ -35,13 +35,18 @@ mutex Singleton::mtx;
 
 int main() {
     // using namespace std::chrono;
-    auto i =high_resolution_clock::now();
-    auto j =high_resolution_clock::now();
-    auto end = duration_cast<microseconds>(j-i);
-    Singleton* obj1 = Singleton::getInstance();
-    Singleton* obj2 = Singleton::getInstance();
+    // auto i =high_resolution_clock::now();
+    // auto j =high_resolution_clock::now();
+    // auto end = duration_cast<microseconds>(j-i);
+    // Singleton* obj1 = Singleton::getInstance();
+    // Singleton* obj2 = Singleton::getInstance();
 
-    std::cout << (obj1 == obj2) << std::endl; // Outputs: 1 (true)
+    // std::cout << (obj1 == obj2) << std::endl; // Outputs: 1 (true)
+
+    string str ="abcdef";
+    cout<<str.substr(5, 1)<<endl;
+
+    int a=2500000000;
 
     return 0;
 }
