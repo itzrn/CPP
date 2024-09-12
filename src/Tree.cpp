@@ -17,15 +17,15 @@
 // #define long long as ll
 using namespace std;
 
-struct Node {
-    int data;
-    Node* left;
-    Node* right;
-    Node(){}
-    Node(int data):data(data), left(nullptr), right(nullptr){}
-};
 
 class Tree{
+    struct Node {
+        int data;
+        Node* left;
+        Node* right;
+        Node(){}
+        Node(int data):data(data), left(nullptr), right(nullptr){}
+    };
     public:
         Tree(){}
         Node* treeBuild(vector<int>& vals){
@@ -56,7 +56,6 @@ class Tree{
 
             return root;
         }
-
         void printPreorder(Node* root){
             if(!root){
                 return;
@@ -67,7 +66,6 @@ class Tree{
             printPreorder((*root).left);
             printPreorder((*root).right);
         }
-
         vector<int> topView(Node *root) {
             vector<int> ans;
             if(root == NULL){
@@ -105,7 +103,6 @@ class Tree{
             
             return ans;
         }
-
         bool isSameTree(Node* p, Node* q) {
             if(!p && !q){
                 return true;
@@ -115,7 +112,6 @@ class Tree{
             }
             return isSameTree((*p).left, (*q).left) && isSameTree((*p).right, (*q).right);
         }
-
         void diagonalTraversal(vector<vector<int>>& ans, Node* root, int left){
         if(!root){
             return;
@@ -128,7 +124,6 @@ class Tree{
         diagonalTraversal(ans, (*root).left, left+1);
         diagonalTraversal(ans, (*root).right, left);
     }
-
         int kthAncestor(Node* root, int& node, int& k, Node*& ans){
             if(!root){
                 return 0;
@@ -152,7 +147,6 @@ class Tree{
             }
             return 0;
         }
-
         void inorder(Node* root){
             if(!root){
                 return;
@@ -162,7 +156,6 @@ class Tree{
             cout<<(*root).data<<" ";
             inorder((*root).right);
         }
-
         bool searchBST(Node* root, int& key){
             if(!root){
                 return false;
@@ -172,7 +165,6 @@ class Tree{
             }
             return searchBST((*root).left, key) || searchBST((*root).right, key);
         }
-
         Node* insertBST(Node* root, int key){
             if(!root){
                 return new Node(key);
@@ -190,7 +182,6 @@ class Tree{
 
             return root;
         }
-
         Node* deleteBST(Node* root, int key){
             if(!root){
                 return NULL;
@@ -217,10 +208,7 @@ class Tree{
             }
             return root;
         }
-
-
 };
-
 
 int main()
 {
@@ -298,5 +286,3 @@ int main()
 
     return 0;
 }
-
-

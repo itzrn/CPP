@@ -261,28 +261,8 @@ class Test{
 };
 
 int main(){
-    // Test t = Test();
-    // int n;
-    // cin>>n;
-    // vector<int> vec;
-    // while(n-->0){
-    //     int a;
-    //     cin>>a;
-    //     vec.push_back(a);
-    // }
-
-    // vector<int> nge = t.NGE(vec);
-    int a=10;
-    int*b = &a;
-    int**c = &b;
-    cout<<"value of a -> a -> "<<a<<endl; // a ka value
-    cout<<"address of a -> &a -> "<<&a<<endl; // a ka address
-    cout<<"value of b -> b -> "<<b<<endl; // b ka value
-    cout<<"addres of b -> &b -> "<<&b<<endl;// b ka address
-    cout<<"value of c -> c -> "<<c<<endl; // c ka value or b ka address
-    cout<<"address of c -> &c ->"<<&c<<endl; //c ka address
-    cout<<"value of *c -> *c -> "<<*c<<endl; // b ka value or a ka address
-    cout<<"value of **c -> **c -> "<<**c<<endl; // a value
-
+    int t;
+    cin>>t;
+    cout<<t<<endl;
     return 0;
 }

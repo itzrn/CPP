@@ -330,9 +330,12 @@ int main(int argc, char const *argv[]) {
    /*
     14.
 
-    lower_bound and upper_bound -> this is of O(logn) time complexity
+    lower_bound and upper_bound -> this is of O(n) time complexity when we are using it with map and set
+    so while suing map and set use mp.lower_bound/upper_bound or st.lower_bound()/upeer_bound
     this work on sorted elements
 
+
+    in case array and vector time complexity is O(logn)
     int a[6]={4, 5, 5, 7, 8, 25};
     int*ptr1 = lower_bound(a, a+6, 5) // ya to vo element find krega or agar vo element nhi hai to usse just bada prenst element ko find krega
     if(ptr1 == (n+6)){
@@ -388,7 +391,7 @@ int main(int argc, char const *argv[]) {
     int sum = accumulate(begin(vec), end(vec), 0); // initial sum is also provided
 
     count
-    int ct = count(begin(vec), end(vec), 4); // konse element ka count chahoye that is also need to be provided
+    int ct = count(begin(vec), end(vec), 4); // konse element ka count chahiye that is also need to be provided
 
     to fincd the iterator of particular element
     auto it = find(vec.begin(), vec.end(), 9);
@@ -452,6 +455,59 @@ int main(int argc, char const *argv[]) {
 
 */
 
+
+/*
+    21. about string
+        cin>>t;
+        cin.ignore();
+        while(t-->0){
+            string s;
+            getline(cin, s);
+        }
+
+        string str;
+        str.push_back(); // this add a character or string at the end, using this is norw effective according to the time complexity
+
+
+        some time you need to take a big integer as input of may be 10^20 length integer
+        then you directly take it as string and perform the operation on each character
+
+
+
+        if you are declaring global array then it should not be of more than 1e7
+        and in local not more than 1e5
+*/
+
+
+
+/*
+alternative
+    
+    and for &&
+    and_eq for &=
+    bitand for &
+    bitor for |
+    compl for ~
+    not for !
+    not_eq for !=
+    or for ||
+    or_eq for |=
+    xor for ^
+    xor_eq for ^=
+*/
+
+
+
+/*
+    unordered map use the concept of hashong to store the elements, and if in case all elements have the same
+    hash value then time gets increase in fetching any key
+
+    so to make it reserve, if we already know that the unordered map is going to have the these many elements we use
+    the reserve function
+
+    so to have 2^10 reserve positions
+    mp.reserve(1<<10);
+ */
 
 
     return 0;
