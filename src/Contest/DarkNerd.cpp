@@ -4,6 +4,13 @@
 /*
   Compete against Yourself.
   DarkNerd
+
+    ██████╗    ███████║   ██████╗    ██╗  ██╗   ██╗     ██╗   ███████╗   ██████╗    ██████╗
+    ██╔══██╗   ██╔══██║   ██╔══██╗   ██║ ██╔╝   ██║██   ██║   ██╔════╝   ██╔══██╗   ██╔══██╗
+    ██║  ██║   ███████║   ██████╔╝   █████║     ██║ ██  ██║   █████╗     ██████╔╝   ██║  ██║
+    ██╔══██║   ██╔══██║   ██╔══██╗   ██╔═██║    ██║  ██ ██║   ██╔══╝     ██╔══██╗   ██╔══██║
+    ██████╔╝   ██║  ██║   ██║  ██║   ██║  ██║   ██║   ████║   ███████╗   ██║  ██║   ██████╔╝
+    ╚═════╝    ╚═╝  ╚═╝   ╚═╝  ╚═╝   ╚═╝  ╚═╝   ╚═╝     ╚═╝   ╚══════╝   ╚═╝  ╚═╝   ╚═════╝ 
 */
 
 #include <bits/stdc++.h>
@@ -382,6 +389,12 @@ public:
         return query(start, end, 0, 0, n-1);
     }
 };
+struct pair_hash {
+    template <class T1, class T2>
+    size_t operator() (const pair<T1, T2>& p) const {
+        return hash<T1>{}(p.first) ^ hash<T2>{}(p.second);
+    }
+};
 // template <class T>
 class DarkNerd {
     private:
@@ -433,12 +446,27 @@ class DarkNerd {
         //         meet_in_the_middle(arr, st+1, en, mp, sm+arr[st], x);
         //     }
         // }
-    
-    
+        vs getAllWords(const string& sent){
+            stringstream ss(sent);
+            vs vec;
+            string word;
+            while(ss >> word){
+                vec.push_back(word);
+            }
+            return vec;
+        }
     public:
         void solve(int tc) {
-            
+            ll n;
+            cin>>n;
+            vl vec(n);
+            for(ll i=0; i<n; i++){
+                cin>>vec[i];
+            }
+
         }
+
+
 
 }darknerd;
 int main() {
@@ -452,6 +480,7 @@ int main() {
 #endif
     int tt = 1;
     cin >> tt;
+    cin.ignore();
     int a=1;
     while(a<=tt){
         darknerd.solve(a);
@@ -500,6 +529,43 @@ int main() {
 5.
     char* stra = &s[0];
     char str[] = stra; 
+
+
+6. 
+    #include <bitset>
+    string str = bitset<32>(num).to_string(); // for 32 bit
+    string str = bitset<64>(num).to_string(); // for 64 bit
+
+    is used to get the binary representation of number in string
+
+7.
+    to get all the stinf grom sentence
+    string sentence = "This is a sample sentence.";
+    stringstream ss(sentence);
+    string word;
+    vector<string> words;
+
+    while (ss >> word) {
+        words.push_back(word);
+    }
+
+    std::cout << "Extracted words:" << std::endl;
+    for (const auto& w : words) {
+        cout << w << endl;
+    }
+
+8.
+    Defining Hash Function, u need to define the hash function of the 
+            inner structure of the data structure u are applying the hash function
+
+    like let say u want to store the pair<int, pair<int, int>> in unordered_map, then u need to make
+    the bellow hash function
+    struct pair_hash {
+        template <class T1, class T2, class T3>
+        size_t operator() (const pair<T1, pair<T2, T3>>& p) const {
+            return hash<T1>{}(p.first) ^ hash<T2>{}(p.second.first)^hash<T3>{}(p.second.second);
+        }
+    };
 
 
 */

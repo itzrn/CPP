@@ -1,138 +1,46 @@
 #include <iostream>
-#include <climits>
-#include <set>
-#include<string.h>
 #include <vector>
-using namespace std;
 
-struct Node{
-    Node* links[26];
-    bool flag;
-
-    Node(bool flag):flag(flag){
-        memset(this->links, 0, 26);
-    }
-
-    bool contains(char ch){
-        return this->links[ch-'a'] != 0;
-    }
-
-    void put(char ch, Node* node){
-        this->links[ch-'a']=node;
-    }
-
-    Node* get(char ch){
-        return links[ch-'a'];
-    }
-
-    void setEnd(){
-        this->flag = true;
-    }
-    
-    bool getEnd(){
-        return this->flag;
-    }
-};
-
-class Solution {
-    Node* root;
+class BIT {
 public:
-    Solution(){
-        this->root = new Node(false);
+    BIT(int size) : bit(size + 1, 0), n(size) {}
+
+    void update(int index, int value) {
+        for (; index <= n; index += index & -index)
+            bit[index] += value;
     }
 
-    void insert(string str){
-        Node* node = this->root;
-        int n=str.length();
-
-        for(int i=0; i<n; i++){
-            if(!node->contains(str[i])){
-                node->put(str[i], new Node(false));
-            }
-            node = node->get(str[i]);
-        }
-
-        cout<<"Aryan"<<endl;
-        node->setEnd();
-        cout<<"Aryan1"<<endl;
+    int query(int index) {
+        int sum = 0;
+        for (; index > 0; index -= index & -index)
+            sum += bit[index];
+        return sum;
     }
 
-    string search(string str){
-        Node* node = root;
-        int n=str.size();
-        string result;
-        for(char c:str){
-            if(!node->contains(c)){
-                return str;
-            }
-            result += c;
-            if(node->get(c)->getEnd()){
-                return result;
-            }
-
-            node = node->get(c);
-        }
-
-        return str;
-    }
-
-    string replaceWords(vector<string>& dictionary, string sentence) {
-        for(string word:dictionary){
-            insert(word);
-        }
-
-        // stringstream ss(sentence);
-        // string word, res;
-        // while(ss >> word){ // this is the way to extraxt word from the string sentence
-        //     if(!res.empty()){
-        //         res += " ";
-        //     }
-
-        //     res += search(word);
-        // }
-
-        return "res";
-    }
+private:
+    std::vector<int> bit;
+    int n;
 };
-#include<sstream>
-int main(int argc, char const *argv[])
-{
-    // string sentence = "             Aryan           Prajapati       21BCE7170         ";
-    // stringstream ss(sentence);
-    // string word;
-    // while(ss >> word){ // this is the way to extraxt word from the string sentence
-    //     cout<<word<<endl;
-    //     // if(!res.empty()){
-    //     //     res += " ";
-    //     // }
 
-    // }
+int solve(int N) {
+    std::vector<int> ways(N + 1, 0);
+    BIT bit(N);
 
-    set<int> set_a;
-    set_a.insert(2);
-    set_a.insert(4);
-    set_a.insert(1);
-    set_a.insert(7);
-    set_a.insert(3);
-    set_a.insert(0);
-    set<int> :: iterator ita=set_a.begin();
-    set<int>::iterator itaaaa = set_a.insert(10).first;
-    while(ita != set_a.end()){
-        
-        cout<<*ita<<endl;
-        ita++;
-    }
-    set<int> set_b;
+    ways[1] = 1;
+    bit.update(1, 1);
 
-    set_b.insert(set_a.begin(), set_a.end());
-
-    set<int> :: iterator itb=set_b.begin();
-    while(itb != set_b.end()){
-        
-        cout<<*itb<<endl;
-        itb++;
+    for (int i = 2; i <= N; ++i) {
+        for (int j = i; j <= N; j += i) {
+            ways[j] += ways[i];
+            bit.update(j, ways[i]);
+        }
     }
 
-    
+    return bit.query(N);
+}
+
+int main() {
+    int N = 10;  // Example input
+    std::cout << "Number of ways to reach Island " << N << " is: " << solve(N) << std::endl;
     return 0;
 }

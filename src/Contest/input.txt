@@ -1,13 +1,7 @@
+3
+3
+1 0 1
 4
-3 2
-abc
-abc
-3 2
-abc
-abd
-4 4
-opqk
-cccc
-4 2
-abcd
-ppqq
+0 1 0 0
+3
+1 1 1
