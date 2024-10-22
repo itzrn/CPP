@@ -5,10 +5,10 @@
   Compete against Yourself.
   DarkNerd
 
-    ██████╗    ███████║   ██████╗    ██╗  ██╗   ██╗     ██╗   ███████╗   ██████╗    ██████╗
-    ██╔══██╗   ██╔══██║   ██╔══██╗   ██║ ██╔╝   ██║██   ██║   ██╔════╝   ██╔══██╗   ██╔══██╗
-    ██║  ██║   ███████║   ██████╔╝   █████║     ██║ ██  ██║   █████╗     ██████╔╝   ██║  ██║
-    ██╔══██║   ██╔══██║   ██╔══██╗   ██╔═██║    ██║  ██ ██║   ██╔══╝     ██╔══██╗   ██╔══██║
+    ██████╗    ███████║   ██████╗    ██╗  ██║   ██╗     ██╗   ███████╗   ██████╗    ██████╗
+    ██╔══██╗   ██╔══██║   ██╔══██╗   ██║██╔╝    ██║██║  ██║   ██╔════╝   ██╔══██╗   ██╔══██╗
+    ██║  ██║   ███████║   ██████╔╝   ███║       ██║ ██║ ██║   █████╗     ██████╔╝   ██║  ██║
+    ██╔══██║   ██╔══██║   ██╔══██╗   ██╔██║     ██║ ║██ ██║   ██╔══╝     ██╔══██╗   ██╔══██║
     ██████╔╝   ██║  ██║   ██║  ██║   ██║  ██║   ██║   ████║   ███████╗   ██║  ██║   ██████╔╝
     ╚═════╝    ╚═╝  ╚═╝   ╚═╝  ╚═╝   ╚═╝  ╚═╝   ╚═╝     ╚═╝   ╚══════╝   ╚═╝  ╚═╝   ╚═════╝ 
 */
@@ -217,8 +217,9 @@ class DSU{
             components--;
         }
 };
-class SGT{
+class SegmentTree {
     /**
+     * It is a balanced Binary Tree
      * 1. Its a kind of binary tree
      * 2. 2 childrens of all non-leaf nodes
      * 3. leaf node represents a single node of the array
@@ -234,88 +235,100 @@ class SGT{
      * time to find the sum between any range -> logn
      * to be on safe side we have take array size as 4n, when the n is not in power of 2 then we make 2*n leaf nodes, which mwkes the segment tree of size 2*2*n=4n
      */
-    private:
-        void buildSGT(int root, int left, int right){
-            if(left == right){
-                sgtree[root] == vec[left];
-                return;
-            }
-            int mid = left+((right-left)>>1);
-            buildSGT(2*root+1, left, mid);
-            buildSGT(2*root+2, mid+1, right);
-            sgtree[root] = sgtree[2*root+1]+sgtree[2*root+2];
+private:
+    void buildTree(ll root, ll lft, ll rgt) {
+        if(lft>rgt){
+            return;
         }
-        int query(int start, int end, int root, int left, int right){
-            if(left>end || right<start){ // out of bound hai according to start and end
-                return 0;
-            }
-            if(start<=left && end>=right){
-                return sgtree[root];
-            }
-            int mid = left+((right-left)>>1);
-            return query(start, end, 2*root+1, left, mid)+query(start, end, 2*root+2, mid+1, right);
+        if (lft == rgt) {
+            sgt[root] = vec[lft];
+            return;
         }
-        void point_update(int idx, int val, int root, int left, int right){
-            if(left==right){
-                sgtree[root]=val; // do sgtree[root]=vec[left]=val, if you want to permanently update the value
-                return;
+        ll mid = lft + ((rgt - lft) >> 1);
+        buildTree(2 * root + 1, lft, mid);
+        buildTree(2 * root + 2, mid + 1, rgt);
+        sgt[root] = sgt[2 * root + 1] + sgt[2 * root + 2];
+    }
+    ll query(ll root, ll lft, ll rgt, ll i, ll j) {
+        if (i > rgt || j < lft) {
+            return 0;
+        }
+        if (lazy[root] != 0) { // used when there is range updation
+            sgt[root] += (rgt - lft + 1) * lazy[root];
+            if (lft != rgt) {
+                lazy[2 * root + 1] += lazy[root];
+                lazy[2 * root + 2] += lazy[root];
             }
-            int mid=left+((right-left)>>1);
-            if(idx<=mid){
-                point_update(idx, val, 2*root+1, left, mid);
-            }else{
-                point_update(idx, val, 2*root+2, mid+1, right);
+            lazy[root] = 0;
+        }
+        if (i <= lft && rgt <= j) {
+            return sgt[root];
+        }
+        ll mid = lft + ((rgt - lft) >> 1);
+        return query(2 * root + 1, lft, mid, i, j) + query(2 * root + 2, mid + 1, rgt, i, j);
+    }
+    void point_update(ll root, ll lft, ll rgt, ll idx, ll val){
+        if(lft==rgt){
+            // at this moment left==right==idx
+            sgt[root]=val; // do sgtree[root]=vec[left]=val, if you want to permanently update the value
+            return;
+        }
+        if (lazy[root] != 0) { // used when there is range updation
+            sgt[root] += (rgt - lft + 1) * lazy[root];
+            if (lft != rgt) {
+                lazy[2 * root + 1] += lazy[root];
+                lazy[2 * root + 2] += lazy[root];
             }
-            sgtree[root] = sgtree[2*root+1]+sgtree[2*root+2];
+            lazy[root] = 0;
         }
-
-        // this usese the concept of lazy prpogation
-        void range_update(int start, int end, int val, int root, int left, int right){ // time-> logn
-            if(lazytree[root] != 0){
-                sgtree[root] += (right-left+1)*lazytree[root];
-                if(left != right){ // means the root is not leaf node
-                    lazytree[2*root+1]=lazytree[root];
-                    lazytree[2*root+2]=lazytree[root];
-                }
-                lazytree[root]=0;
+        ll mid=lft+((rgt-lft)>>1);
+        if(idx<=mid){
+            point_update(2*root+1, lft, mid, idx, val);
+        }else{
+            point_update(2*root+2, mid+1, rgt, idx, val);
+        }
+        sgt[root] = sgt[2*root+1]+sgt[2*root+2];
+    }
+    void update(ll root, ll lft, ll rgt, ll val, ll i, ll j) { // this is used to update the range
+        if (lazy[root] != 0) {
+            sgt[root] += (rgt - lft + 1) * lazy[root];
+            if (lft != rgt) {
+                lazy[2*root+1] += lazy[root];
+                lazy[2*root+2] += lazy[root];
             }
-
-            if(left>end || right<start){
-                return;
+            lazy[root] = 0;
+        }
+        if (i > rgt || j < lft || lft > rgt) {
+            return;
+        }
+        if (i <= lft && rgt <= j) {
+            sgt[root] += (rgt-lft+1)*val;
+            if (lft != rgt) {
+                lazy[2*root+1] += val;
+                lazy[2*root+2] += val;
             }
-            if(start<=left && end>=right){
-                sgtree[root] = (right-left+1)*val;
-                if(left != right){
-                    lazytree[2*root+1]+=val;
-                    lazytree[2*root+2]+=val;
-                }
-                return;
-            }
-
-            int mid = left + ((right-left)>>1);
-            range_update(start, end, val, 2*root+1, left, mid);
-            range_update(start, end, val, 2*root+2, mid+1, right);
-            sgtree[root] = sgtree[2*root+1]+sgtree[2*root+2];
+            return;
         }
-    public:
-        vi sgtree;
-        vi vec;
-        int n;
-        vi lazytree;
-        SGT(vi& vec):vec(vec), n(vec.size()){
-            sgtree=vi(4*n);
-            lazytree=vi(4*n, 0);
-            buildSGT(0, 0, n-1);
-        }
-        int query(int start, int end){
-            return query(start, end, 0, 0, n-1);
-        }
-        void point_update(int idx, int val){
-            point_update(idx, val, 0, 0, n-1);
-        }
-        void range_update(int start, int end, int val){
-            range_update(start, end, val, 0, 0, n-1);
-        }
+        ll mid = lft + ((rgt - lft) >> 1);
+        update(2 * root + 1, lft, mid, val, i, j);
+        update(2 * root + 2, mid + 1, rgt, val, i, j);
+        sgt[root] = sgt[2*root+1]+sgt[2*root+2];
+    }
+    ll n;
+    vector<ll> vec, sgt, lazy;
+public:
+    SegmentTree(ll n, vector<ll>& vec) : n(n), vec(vec), sgt(4*n+1, 0), lazy(4*n+1, 0) {
+        buildTree(0, 0, n - 1);
+    }
+    void update(ll val, ll i, ll j) { // this is range update
+        update(0, 0, n - 1, val, i, j);
+    }
+    ll query(ll i, ll j) {
+        return query(0, 0, n - 1, i, j);
+    }
+    ll point_update(ll idx, ll val){
+        point_update(0, 0, n-1, idx, val);
+    }
 };
 class RMNQ{ // Range Minimum Query
     void buildRMNQ(int root, int left, int right){
@@ -389,12 +402,12 @@ public:
         return query(start, end, 0, 0, n-1);
     }
 };
-struct pair_hash {
-    template <class T1, class T2>
-    size_t operator() (const pair<T1, T2>& p) const {
-        return hash<T1>{}(p.first) ^ hash<T2>{}(p.second);
-    }
-};
+// struct pair_hash {
+//     template <class T1, class T2>
+//     size_t operator() (const pair<T1, T2>& p) const {
+//         return hash<T1>{}(p.first) ^ hash<T2>{}(p.second);
+//     }
+// };
 // template <class T>
 class DarkNerd {
     private:
@@ -457,14 +470,9 @@ class DarkNerd {
         }
     public:
         void solve(int tc) {
-            ll n;
-            cin>>n;
-            vl vec(n);
-            for(ll i=0; i<n; i++){
-                cin>>vec[i];
-            }
-
+            
         }
+
 
 
 
